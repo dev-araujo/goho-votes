@@ -1,0 +1,3 @@
+[submodule "gohovotes-contracts/lib/forge-std"]
+	path = gohovotes-contracts/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
