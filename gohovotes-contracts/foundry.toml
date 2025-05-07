@@ -16,6 +16,8 @@ solc_version = "0.8.28"
 localhost = "http://localhost:8545"
 polygon_mainnet = "${RPC_URL_MAINNET}"
 
+[etherscan]
+polygon_mainnet = { key = "${POLYGONSCAN_API_KEY}", url = "https://api.polygonscan.com/api" }
 
 [test]
 match_path = "test/*.t.sol"
