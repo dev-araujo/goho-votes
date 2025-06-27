@@ -5,18 +5,19 @@ import {GohoVoting} from "../src/GohoVoting.sol";
 import {Script, console} from "forge-std/Script.sol";
 
 contract DeployGohoVotingScript is Script {
-    address gohoTokenAddress;
-
-    function run() external {
-        gohoTokenAddress = vm.envAddress("GOHO_TOKEN_ADDRESS");
+    function run(address _gohoTokenAddress) external {
+        address gohoTokenAddress = _gohoTokenAddress;
 
         if (gohoTokenAddress == address(0)) {
             if (block.chainid == 137) {
                 // Polygon Mainnet ID
                 gohoTokenAddress = 0x7B7758077e51Bc1Be499eF9180f82E16019065cD;
+            } else if (block.chainid == 80002) {
+                // Polygon Amoy Testnet ID
+                gohoTokenAddress = 0x674ef763774479234F77b424D015Fc105397f7Ff;
             } else {
                 revert(
-                    "DeployGohoVotingScript: Variavel de ambiente GOHO_TOKEN_ADDRESS nao definida e nenhum valor padrao para o chainId atual."
+                    "DeployGohoVotingScript: Endereco do token nao fornecido e nenhum valor padrao para o chainId atual."
                 );
             }
         }
