@@ -62,12 +62,16 @@ contract GohoVoting is Ownable, ReentrancyGuard {
     function createPoll(
         string memory _description,
         string[] memory _optionDescriptions,
-        uint256 _durationInSeconds
+        uint256 _durationInDays
     ) external nonReentrant checkMinimumGoho {
-        require(_optionDescriptions.length >= 2, "GohoVoting: Minimo 2 opcoes");
-        require(_durationInSeconds > 0, "GohoVoting: Duracao invalida");
         require(
-            _durationInSeconds <= MAX_POLL_DURATION,
+            bytes(_description).length > 0,
+            "GohoVoting: Descricao da enquete vazia"
+        );
+        require(_optionDescriptions.length >= 2, "GohoVoting: Minimo 2 opcoes");
+        require(_durationInDays >= 1, "GohoVoting: Duracao minima de 1 dia");
+        require(
+            _durationInDays * 1 days <= MAX_POLL_DURATION,
             "GohoVoting: Duracao muito longa"
         );
 
@@ -83,7 +87,7 @@ contract GohoVoting is Ownable, ReentrancyGuard {
         newPoll.id = pollId;
         newPoll.creator = msg.sender;
         newPoll.description = _description;
-        newPoll.deadline = block.timestamp + _durationInSeconds;
+        newPoll.deadline = block.timestamp + _durationInDays * 1 days;
         newPoll.active = true;
 
         // aderyn-fp-next-line(costly-loop)
@@ -117,7 +121,6 @@ contract GohoVoting is Ownable, ReentrancyGuard {
             "GohoVoting: Opcao invalida"
         );
 
-        // aderyn-fp-next-line(reentrancy-state-change)
         uint256 votePower = GOHO.balanceOf(msg.sender);
         require(votePower > 0, "GohoVoting: Sem poder de voto (0 GOHO)");
 
@@ -129,7 +132,9 @@ contract GohoVoting is Ownable, ReentrancyGuard {
     }
 
     function getPollDetails(
-        uint256 _pollId
+        uint256 _pollId,
+        uint256 _offset,
+        uint256 _limit
     )
         external
         view
@@ -141,18 +146,29 @@ contract GohoVoting is Ownable, ReentrancyGuard {
             uint256[] memory optionVoteCounts,
             uint256 deadline,
             bool active,
-            uint256 totalVotePowerCast
+            uint256 totalVotePowerCast,
+            uint256 totalOptions
         )
     {
         Poll storage p = polls[_pollId];
         require(p.creator != address(0), "GohoVoting: Enquete nao existe");
 
-        optionDescriptions = new string[](p.options.length);
-        optionVoteCounts = new uint256[](p.options.length);
+        totalOptions = p.options.length;
 
-        for (uint i = 0; i < p.options.length; i++) {
-            optionDescriptions[i] = p.options[i].description;
-            optionVoteCounts[i] = p.options[i].voteCount;
+        uint256 cappedLimit = _limit;
+        if (_offset >= totalOptions) {
+            cappedLimit = 0;
+        } else if (cappedLimit > totalOptions - _offset) {
+            cappedLimit = totalOptions - _offset;
+        }
+
+        optionDescriptions = new string[](cappedLimit);
+        optionVoteCounts = new uint256[](cappedLimit);
+
+        for (uint i = 0; i < cappedLimit; i++) {
+            uint256 optionIndex = _offset + i;
+            optionDescriptions[i] = p.options[optionIndex].description;
+            optionVoteCounts[i] = p.options[optionIndex].voteCount;
         }
 
         return (
@@ -163,12 +179,29 @@ contract GohoVoting is Ownable, ReentrancyGuard {
             optionVoteCounts,
             p.deadline,
             p.active,
-            p.totalVotePowerCast
+            p.totalVotePowerCast,
+            totalOptions
         );
     }
 
     function getPollCount() external view returns (uint256) {
         return nextPollId;
+    }
+
+    function closePoll(uint256 _pollId) external nonReentrant {
+        Poll storage pollToClose = polls[_pollId];
+        require(
+            pollToClose.creator != address(0),
+            "GohoVoting: Enquete nao existe"
+        );
+        require(pollToClose.active, "GohoVoting: Enquete ja esta inativa");
+        require(
+            block.timestamp >= pollToClose.deadline,
+            "GohoVoting: Enquete ainda nao encerrou"
+        );
+
+        pollToClose.active = false;
+        emit PollClosed(_pollId);
     }
 
     function closePollAdmin(uint256 _pollId) external onlyOwner {
@@ -180,7 +213,6 @@ contract GohoVoting is Ownable, ReentrancyGuard {
         require(pollToClose.active, "GohoVoting: Enquete ja esta inativa");
 
         pollToClose.active = false;
-        pollToClose.deadline = block.timestamp;
         emit PollClosed(_pollId);
     }
 
