@@ -5,8 +5,8 @@ import {GohoVoting} from "../src/GohoVoting.sol";
 import {Script, console} from "forge-std/Script.sol";
 
 contract DeployGohoVotingScript is Script {
-    function run(address _gohoTokenAddress) external {
-        address gohoTokenAddress = _gohoTokenAddress;
+    function run() external {
+        address gohoTokenAddress = address(0);
 
         if (gohoTokenAddress == address(0)) {
             if (block.chainid == 137) {

@@ -7,7 +7,8 @@ import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol
 
 contract GohoVoting is Ownable, ReentrancyGuard {
     IERC20 public immutable GOHO;
-    uint256 public constant MINIMUM_GOHO_TO_PARTICIPATE = 10 * 10 ** 18;
+    uint256 public constant MINIMUM_GOHO_TO_CREATE_POLL = 1 * 10 ** 18;
+    uint256 public constant MINIMUM_GOHO_TO_VOTE = 1 * 10 ** 18;
     uint256 public constant MAX_POLL_DURATION = 30 days;
 
     struct Option {
@@ -43,10 +44,18 @@ contract GohoVoting is Ownable, ReentrancyGuard {
     );
     event PollClosed(uint256 indexed pollId);
 
-    modifier checkMinimumGoho() {
+    modifier checkMinimumGohoToCreate() {
         require(
-            GOHO.balanceOf(msg.sender) >= MINIMUM_GOHO_TO_PARTICIPATE,
-            "GohoVoting: Saldo GOHO insuficiente"
+            GOHO.balanceOf(msg.sender) >= MINIMUM_GOHO_TO_CREATE_POLL,
+            "GohoVoting: Saldo GOHO insuficiente para criar"
+        );
+        _;
+    }
+
+    modifier checkMinimumGohoToVote() {
+        require(
+            GOHO.balanceOf(msg.sender) >= MINIMUM_GOHO_TO_VOTE,
+            "GohoVoting: Saldo GOHO insuficiente para votar"
         );
         _;
     }
@@ -63,7 +72,7 @@ contract GohoVoting is Ownable, ReentrancyGuard {
         string memory _description,
         string[] memory _optionDescriptions,
         uint256 _durationInDays
-    ) external nonReentrant checkMinimumGoho {
+    ) external nonReentrant checkMinimumGohoToCreate {
         require(
             bytes(_description).length > 0,
             "GohoVoting: Descricao da enquete vazia"
@@ -104,7 +113,7 @@ contract GohoVoting is Ownable, ReentrancyGuard {
     function vote(
         uint256 _pollId,
         uint256 _optionId
-    ) external nonReentrant checkMinimumGoho {
+    ) external nonReentrant checkMinimumGohoToVote {
         Poll storage currentPoll = polls[_pollId];
         require(
             currentPoll.creator != address(0),
