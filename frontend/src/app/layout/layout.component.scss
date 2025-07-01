@@ -1,0 +1,54 @@
+@use "../../styles/variables" as _var;
+
+.layout {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  background-color: _var.$primary-bg;
+
+  &__content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: _var.$spacing-md;
+    background-color: _var.$white;
+
+    @media (min-width: _var.$breakpoint-md) {
+      max-width: 90vw;
+      margin: auto;
+      border-radius: _var.$border-radius-base * 2;
+      box-shadow: 0 4px 12px rgba(_var.$black, 0.1);
+      overflow-y: auto;
+    }
+
+    @media (min-width: _var.$breakpoint-lg) {
+      max-width: 84vw;
+      height: 90vh;
+    }
+  }
+
+  .menu-toggle {
+    display: none;
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1001;
+    background: none;
+    border: none;
+    cursor: pointer;
+    background-color: _var.$primary-bg;
+
+    .material-icons {
+      font-size: 2rem;
+      color: _var.$primary-text;
+    }
+
+    @media (max-width: _var.$breakpoint-md) {
+      display: block;
+    }
+  }
+}

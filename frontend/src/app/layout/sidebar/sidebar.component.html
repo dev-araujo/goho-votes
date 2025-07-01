@@ -1,0 +1,50 @@
+<aside class="sidebar" [class.is-open]="isMenuOpen">
+  <div class="sidebar__content">
+    <header class="logo" [routerLink]="['/token']">
+      <img
+        src="gohorse-pe-de-pano.jpg"
+        alt="GoHorse Logo Estilo Retro"
+        class="image"
+      />
+      <h1>GoHorse</h1>
+    </header>
+    <section class="sidebar__actions">
+      <nav>
+        <a
+          [routerLink]="['/sobre']"
+          routerLinkActive="active"
+          (click)="closeMenu()"
+          >Sobre</a
+        >
+        <a
+          [routerLink]="['/vote']"
+          routerLinkActive="active"
+          (click)="closeMenu()"
+          >Enquetes Abertas</a
+        >
+        <a
+          [routerLink]="['/votadas']"
+          routerLinkActive="active"
+          (click)="closeMenu()"
+          >Enquetes Fechadas</a
+        >
+      </nav>
+
+      <div class="network-select-container">
+        <select
+          [ngModel]="activeNetwork()"
+          (ngModelChange)="onNetworkChange($event)"
+          (change)="onNetworkChange($event)"
+        >
+          <option value="amoy">Amoy Testnet</option>
+          <option value="mainnet">Polygon Mainnet</option>
+        </select>
+      </div>
+
+      <button class="connect-btn" (click)="handleWalletAction()">
+        {{ displayAddress() }}
+      </button>
+    </section>
+  </div>
+</aside>
+
