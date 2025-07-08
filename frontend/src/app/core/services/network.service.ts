@@ -17,11 +17,11 @@ export class NetworkService {
   private readonly CONTRACT_CONFIGS: Record<Network, ContractConfig> = {
     amoy: {
       abi: amoyGoHorse.abi,
-      explorerUrl: 'https://amoy.polygonscan.com',
+      explorerUrl: 'https://amoy.polygonscan.com/address/0x9df6f8d4d02188f9df3a535046f808d3b8ccdad6',
     },
     mainnet: {
       abi: mainnetGoHorse.abi,
-      explorerUrl: 'https://polygonscan.com',
+      explorerUrl: 'https://polygonscan.com', // TODO: trocar
     },
   };
 
@@ -44,4 +44,5 @@ export class NetworkService {
   getExplorerUrl(): string {
     return this.CONTRACT_CONFIGS[this.activeNetwork()].explorerUrl;
   }
+
 }
