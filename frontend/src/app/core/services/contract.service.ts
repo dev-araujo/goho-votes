@@ -46,7 +46,6 @@ export class ContractService {
   }
 
   //MÉTODOS DE LEITURA (VIEW)
-
   getRulesPolls(): Observable<ContractConstants> {
     const contract = this.getReadContract();
     const constants$ = {

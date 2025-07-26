@@ -46,10 +46,7 @@ deploy-testnet: build
 		--broadcast \
 		--verify \
 		--etherscan-api-key $(POLYGONSCAN_API_KEY) \
-		--sig "run(address)" $(GOHO_TOKEN_ADDRESS_TESTNET) \
 		-vvvv
-	@echo "Deployment to Amoy Testnet attempt finished."
-
 
 help:
 	@echo "Usage: make [target]"

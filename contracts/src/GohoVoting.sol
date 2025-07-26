@@ -19,6 +19,7 @@ contract GohoVoting is Ownable, ReentrancyGuard {
     struct Poll {
         uint256 id;
         address creator;
+        string title;
         string description;
         Option[] options;
         uint256 deadline;
@@ -69,6 +70,7 @@ contract GohoVoting is Ownable, ReentrancyGuard {
     }
 
     function createPoll(
+        string memory _title,
         string memory _description,
         string[] memory _optionDescriptions,
         uint256 _durationInDays
@@ -94,6 +96,7 @@ contract GohoVoting is Ownable, ReentrancyGuard {
         uint256 pollId = nextPollId;
         Poll storage newPoll = polls[pollId];
         newPoll.id = pollId;
+        newPoll.title = _title;
         newPoll.creator = msg.sender;
         newPoll.description = _description;
         newPoll.deadline = block.timestamp + _durationInDays * 1 days;

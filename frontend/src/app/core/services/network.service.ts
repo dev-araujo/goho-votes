@@ -1,6 +1,6 @@
 import { Injectable, signal, inject } from '@angular/core';
 
-import amoyGoHorse from '../../../../contracts/amoy/GoHoVoting.json';
+import amoyGoHorse from '../../../../contracts/amoy/GohoVoting.json';
 import mainnetGoHorse from '../../../../contracts/mainnet/GoHorse.json'; // TODO: trocar
 
 export type Network = 'amoy' | 'mainnet';
@@ -17,7 +17,7 @@ export class NetworkService {
   private readonly CONTRACT_CONFIGS: Record<Network, ContractConfig> = {
     amoy: {
       abi: amoyGoHorse.abi,
-      explorerUrl: 'https://amoy.polygonscan.com/address/0x9df6f8d4d02188f9df3a535046f808d3b8ccdad6',
+      explorerUrl: 'https://amoy.polygonscan.com/address/0x87d844F1ada36ec8b12c1BFF85A8EcEe03Af4b9C',
     },
     mainnet: {
       abi: mainnetGoHorse.abi,
