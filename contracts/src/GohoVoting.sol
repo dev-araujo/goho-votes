@@ -32,6 +32,7 @@ contract GohoVoting is Ownable, ReentrancyGuard {
     mapping(uint256 => Poll) public polls;
 
     event PollCreated(
+        string title,
         uint256 indexed pollId,
         address indexed creator,
         string description,
@@ -110,7 +111,13 @@ contract GohoVoting is Ownable, ReentrancyGuard {
         }
 
         nextPollId++;
-        emit PollCreated(pollId, msg.sender, _description, newPoll.deadline);
+        emit PollCreated(
+            _title,
+            pollId,
+            msg.sender,
+            _description,
+            newPoll.deadline
+        );
     }
 
     function vote(
@@ -152,6 +159,7 @@ contract GohoVoting is Ownable, ReentrancyGuard {
         view
         returns (
             uint256 id,
+            string memory title,
             address creator,
             string memory description,
             string[] memory optionDescriptions,
@@ -185,6 +193,7 @@ contract GohoVoting is Ownable, ReentrancyGuard {
 
         return (
             p.id,
+            p.title,
             p.creator,
             p.description,
             optionDescriptions,
