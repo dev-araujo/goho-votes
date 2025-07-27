@@ -1,0 +1,49 @@
+@use '../../../../styles/variables' as var;
+@use '../../../../styles/colors' as color;
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var.$spacing-xl * 2;
+  color: color.$secondary-text;
+
+  &--inline {
+    flex-direction: row;
+    padding: var.$spacing-md;
+    gap: var.$spacing-sm;
+  }
+
+  &__spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid color.$border-color;
+    border-top: 3px solid color.$accent-color;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: var.$spacing-md;
+
+    &--small {
+      width: 20px;
+      height: 20px;
+      border-width: 2px;
+      margin-bottom: 0;
+    }
+  }
+
+  &__message {
+    margin: 0;
+    font-size: var.$font-size-lg;
+    text-align: center;
+
+    .loading--inline & {
+      font-size: var.$font-size-base;
+    }
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

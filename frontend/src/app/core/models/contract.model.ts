@@ -7,6 +7,7 @@ export interface PollOption {
 export interface PollDetails {
   id: number;
   creator: string;
+  title:string
   description: string;
   options: PollOption[];
   deadline: Date;
@@ -19,4 +20,11 @@ export interface ContractConstants {
   minimumGohoToCreatePoll: string;
   minimumGohoToVote: string;
   maxPollDurationInDays: number;
+}
+
+export interface CreatePollData {
+  title: string;
+  description: string;
+  options: string[];
+  durationInDays: number;
 }

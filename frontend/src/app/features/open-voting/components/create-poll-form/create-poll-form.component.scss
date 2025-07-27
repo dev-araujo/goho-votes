@@ -1,0 +1,122 @@
+@use '../../../../../styles/variables' as var;
+@use '../../../../../styles/colors' as color;
+
+.create-form {
+  background-color: var.$white;
+  border: 1px solid color.$border-color;
+  border-radius: var.$border-radius-base * 2;
+  padding: var.$spacing-xl;
+  margin-bottom: var.$spacing-xl;
+
+  h2 {
+    color: color.$primary-text;
+    margin: 0 0 var.$spacing-lg 0;
+    font-size: 1.5rem;
+  }
+
+  &__info {
+    background-color: lighten(color.$accent-color, 35%);
+    padding: var.$spacing-md;
+    border-radius: var.$border-radius-base;
+    margin-bottom: var.$spacing-lg;
+
+    p {
+      margin: 0 0 var.$spacing-xs 0;
+      color: color.$primary-text;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: var.$spacing-lg;
+      color: color.$secondary-text;
+
+      li {
+        margin-bottom: var.$spacing-xs;
+      }
+    }
+  }
+}
+
+.form-group {
+  margin-bottom: var.$spacing-lg;
+
+  label {
+    display: block;
+    margin-bottom: var.$spacing-xs;
+    color: color.$primary-text;
+    font-weight: 500;
+  }
+}
+
+.form-control {
+  width: 100%;
+  padding: var.$spacing-sm var.$spacing-md;
+  border: 1px solid color.$border-color;
+  border-radius: var.$border-radius-base;
+  font-size: var.$font-size-base;
+  font-family: var.$font-family-base;
+  background-color: var.$white;
+  color: color.$primary-text;
+  transition: border-color 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: color.$accent-color;
+    box-shadow: 0 0 0 3px rgba(color.$accent-color, 0.1);
+  }
+
+  &::placeholder {
+    color: color.$secondary-text;
+  }
+}
+
+textarea.form-control {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.option-input {
+  display: flex;
+  gap: var.$spacing-sm;
+  margin-bottom: var.$spacing-sm;
+  align-items: center;
+
+  .form-control {
+    flex: 1;
+  }
+}
+
+.form-actions {
+  display: flex;
+  gap: var.$spacing-md;
+  justify-content: flex-end;
+  margin-top: var.$spacing-xl;
+  flex-wrap: wrap;
+}
+
+@media (max-width: var.$breakpoint-lg) {
+  .create-form {
+    padding: var.$spacing-lg;
+  }
+}
+
+@media (max-width: var.$breakpoint-md) {
+  .form-actions {
+    justify-content: stretch;
+
+    app-button {
+      flex: 1;
+    }
+  }
+
+  .option-input {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: var.$breakpoint-sm) {
+  .create-form {
+    padding: var.$spacing-md;
+  }
+}

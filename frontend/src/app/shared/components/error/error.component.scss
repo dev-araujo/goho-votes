@@ -1,0 +1,23 @@
+@use '../../../../styles/variables' as var;
+@use '../../../../styles/colors' as color;
+
+.error {
+  text-align: center;
+  padding: var.$spacing-xl;
+  background-color: lighten(color.$error-color, 35%);
+  border: 1px solid color.$error-color;
+  border-radius: var.$border-radius-base;
+  margin-bottom: var.$spacing-xl;
+
+  &__icon {
+    font-size: 2rem;
+    margin-bottom: var.$spacing-md;
+  }
+
+  &__message {
+    color: color.$error-color;
+    margin: 0 0 var.$spacing-md 0;
+    font-weight: 500;
+    font-size: var.$font-size-base;
+  }
+}

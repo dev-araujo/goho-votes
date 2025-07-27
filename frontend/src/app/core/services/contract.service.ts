@@ -9,7 +9,7 @@ import { Observable, forkJoin, from, of, throwError } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { NetworkService } from './network.service';
 import { WalletService } from './wallet.service';
-import { ContractConstants, PollDetails, PollOption } from '../models/contract.model';
+import { ContractConstants, PollDetails, PollOption,CreatePollData } from '../models/contract.model';
 
 @Injectable({
   providedIn: 'root',
@@ -95,6 +95,7 @@ export class ContractService {
       map((result) => {
         const [
           id,
+          title,
           creator,
           description,
           optionDescriptions,
@@ -114,6 +115,7 @@ export class ContractService {
 
         return {
           id: Number(id),
+          title,
           creator,
           description,
           options,
@@ -167,9 +169,7 @@ export class ContractService {
 
   // MÉTODOS DE ESCRITA
   createPoll(
-    description: string,
-    options: string[],
-    durationInDays: number
+    pollData: CreatePollData
   ): Observable<TransactionReceipt> {
     const contract = this.getWriteContract();
     if (!contract) {
@@ -179,9 +179,10 @@ export class ContractService {
     }
 
     const promise = contract['createPoll'](
-      description,
-      options,
-      durationInDays
+      pollData.title,
+      pollData.description,
+      pollData.options,
+      pollData.durationInDays
     ).then((tx: any) => tx.wait());
 
     return from(promise as Promise<TransactionReceipt>).pipe(
