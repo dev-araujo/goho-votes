@@ -17,7 +17,7 @@ export class NetworkService {
   private readonly CONTRACT_CONFIGS: Record<Network, ContractConfig> = {
     amoy: {
       abi: amoyGoHorse.abi,
-      explorerUrl: 'https://amoy.polygonscan.com/address/0x87d844F1ada36ec8b12c1BFF85A8EcEe03Af4b9C',
+      explorerUrl: 'https://amoy.polygonscan.com/address/0x5cF749F8061Ec686aa5bdDcD6724aaEc4DB42D46',
     },
     mainnet: {
       abi: mainnetGoHorse.abi,

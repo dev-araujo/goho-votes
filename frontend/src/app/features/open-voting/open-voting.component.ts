@@ -120,6 +120,7 @@ export class OpenVotingComponent implements OnInit {
         next: (polls) => {
           this.openedPolls.set(polls);
           this.checkUserVotes(polls);
+          console.log('Enquetes abertas:', polls);
         },
         error: (err) => {
           console.error('Erro ao carregar enquetes:', err);
