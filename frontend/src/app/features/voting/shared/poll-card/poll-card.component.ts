@@ -5,14 +5,14 @@ import {
   EventEmitter,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { PollDetails } from '../../../../core/models/contract.model';
 import { ButtonComponent } from '../../../../shared/components';
 
 @Component({
   selector: 'app-poll-card',
   standalone: true,
-  imports: [CommonModule, ButtonComponent],
+  imports: [CommonModule, ButtonComponent, DecimalPipe],
   template: `
     <div class="poll-card">
       <div class="poll-card__header">
@@ -37,7 +37,7 @@ import { ButtonComponent } from '../../../../shared/components';
             <span class="poll-option__description">{{
               option.description
             }}</span>
-            <span class="poll-option__votes">{{ option.voteCount }} votos</span>
+            <span class="poll-option__votes">{{ option.voteCount | number:'1.0-0' }} votos</span>
           </div>
           <div class="poll-option__bar">
             <div
@@ -62,8 +62,8 @@ import { ButtonComponent } from '../../../../shared/components';
 
       <div class="poll-card__footer">
         <div class="poll-stats">
-          <span>Total de votos: {{ poll.totalVotePowerCast }}</span>
-          <span>Opções: {{ poll.totalOptions }}</span>
+          <span>Total de votos: {{ poll.totalVotePowerCast | number:'1.0-0' }}</span>
+          <span>Opções: {{ poll.totalOptions | number:'1.0-0' }}</span>
         </div>
         @if (hasUserVoted) {
         <span class="voted-badge">✓ Você já votou</span>
