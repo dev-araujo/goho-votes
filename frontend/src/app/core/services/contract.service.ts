@@ -157,7 +157,7 @@ export class ContractService {
   
   getOpenPolls(): Observable<PollDetails[]> {
     return this.getAllPolls().pipe(
-      map((polls) => polls.filter((p) => p.active).sort((a, b) => b.id - a.id)) 
+      map((polls) => polls.filter((p) => p.active && p.id !== 1).sort((a, b) => b.id - a.id)) 
     );
   }
 

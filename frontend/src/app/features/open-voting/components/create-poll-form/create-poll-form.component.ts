@@ -95,7 +95,7 @@ import { CreatePollData } from '../../../../core/models/contract.model';
             type="submit"
             variant="primary"
             [disabled]="!createForm.valid"
-            [loading]="isCreating"
+          
           >
             Criar Enquete
           </app-button>

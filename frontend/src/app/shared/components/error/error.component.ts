@@ -14,7 +14,6 @@ import { ButtonComponent } from '../button/button.component';
         <app-button 
           variant="secondary" 
           (clicked)="onRetry()"
-          [loading]="retrying"
         >
           {{ retryText }}
         </app-button>
@@ -28,7 +27,6 @@ export class ErrorComponent {
   @Input() message = 'Ocorreu um erro inesperado.';
   @Input() showRetry = true;
   @Input() retryText = 'Tentar Novamente';
-  @Input() retrying = false;
 
   @Output() retry = new EventEmitter<void>();
 

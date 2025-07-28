@@ -10,13 +10,11 @@ import { ButtonSize, ButtonVariant } from '../../models/shared.model';
   template: `
     <button
       [type]="type"
-      [disabled]="disabled || loading"
+      [disabled]="disabled"
       [class]="buttonClasses"
       (click)="handleClick()"
     >
-      @if (loading) {
-        <span class="btn__spinner"></span>
-      }
+     
       <ng-content></ng-content>
     </button>
   `,
@@ -28,7 +26,6 @@ export class ButtonComponent {
   @Input() size: ButtonSize = 'medium';
   @Input() type: 'button' | 'submit' | 'reset' = 'button';
   @Input() disabled = false;
-  @Input() loading = false;
   @Input() fullWidth = false;
 
   @Output() clicked = new EventEmitter<void>();
@@ -46,7 +43,7 @@ export class ButtonComponent {
   }
 
   handleClick(): void {
-    if (!this.disabled && !this.loading) {
+    if (!this.disabled) {
       this.clicked.emit();
     }
   }

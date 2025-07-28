@@ -16,15 +16,16 @@ import { PollDetails } from '../../../../core/models/contract.model';
   template: `
     <div class="poll-card">
       <div class="poll-card__header">
-        <h3>{{ poll.title }}</h3>
-        <details>
-          <div class="poll-card__meta">
+        <div class="poll-card__meta">
             <span class="poll-id">ID: {{ poll.id }}</span>
             <span class="poll-deadline">
               Termina em: {{ formatDeadline(poll.deadline) }}
             </span>
           </div>
-          <summary>Detalhes e Descrição</summary>
+        <h3>{{ poll.title }}</h3>
+        <details>
+          
+          <summary>Detalhes</summary>
           <p>{{ poll.description }}</p>
         </details>
       </div>
@@ -51,7 +52,6 @@ import { PollDetails } from '../../../../core/models/contract.model';
             variant="vote"
             size="small"
             (clicked)="onVote($index)"
-            [loading]="isVoting"
           >
             Votar
           </app-button>
