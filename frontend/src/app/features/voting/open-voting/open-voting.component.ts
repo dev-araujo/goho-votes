@@ -7,14 +7,14 @@ import {
   OnInit,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ContractService } from '../../core/services/contract.service';
-import { WalletService } from '../../core/services/wallet.service';
+import { ContractService } from '../../../core/services/contract.service';
+import { WalletService } from '../../../core/services/wallet.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   PollDetails,
   ContractConstants,
   CreatePollData,
-} from '../../core/models/contract.model';
+} from '../../../core/models/contract.model';
 import { forkJoin } from 'rxjs';
 
 import {
@@ -22,9 +22,13 @@ import {
   LoadingComponent,
   ErrorComponent,
   EmptyStateComponent,
-} from '../../shared/components';
+ 
+} from '../../../shared/components';
 
-import { CreatePollFormComponent, PollsGridComponent } from '.';
+
+import { CreatePollFormComponent,
+  PollsGridComponent } from '../shared';
+
 
 @Component({
   selector: 'app-open-voting',

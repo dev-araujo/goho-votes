@@ -10,7 +10,7 @@ export const routes: Routes = [
   {
     path: 'vote',
     loadComponent: () =>
-      import('./features/open-voting/open-voting.component').then(
+      import('./features/voting/open-voting/open-voting.component').then(
         (m) => m.OpenVotingComponent
       ),
     title: 'Vote!',
@@ -18,7 +18,7 @@ export const routes: Routes = [
   {
     path: 'votadas',
     loadComponent: () =>
-      import('./features/closed-voting/closed-voting.component').then(
+      import('./features/voting/closed-voting/closed-voting.component').then(
         (d) => d.ClosedVotingComponent
       ),
     title: 'Enquetes encerradas',

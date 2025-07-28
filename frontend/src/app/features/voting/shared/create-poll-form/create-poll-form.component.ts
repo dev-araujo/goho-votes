@@ -10,7 +10,6 @@ import { FormsModule } from '@angular/forms';
 import { ButtonComponent } from '../../../../shared/components';
 import { CreatePollData } from '../../../../core/models/contract.model';
 
-
 @Component({
   selector: 'app-create-poll-form',
   standalone: true,
@@ -136,7 +135,7 @@ export class CreatePollFormComponent {
 
   onSubmit(): void {
     const validOptions = this.formData.options.filter(
-      (opt) => opt.trim().length > 0
+      (opt:any) => opt.trim().length > 0
     );
     if (validOptions.length < 2) {
       alert('É necessário pelo menos 2 opções válidas.');
@@ -151,7 +150,7 @@ export class CreatePollFormComponent {
     const submitData: CreatePollData = {
       title: this.formData.title.trim(),
       description: this.formData.description.trim(),
-      options: validOptions.map((opt) => opt.trim()),
+      options: validOptions.map((opt:any) => opt.trim()),
       durationInDays: this.formData.durationInDays,
     };
 

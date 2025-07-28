@@ -6,8 +6,8 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ButtonComponent } from '../../../../shared/components';
 import { PollDetails } from '../../../../core/models/contract.model';
+import { ButtonComponent } from '../../../../shared/components';
 
 @Component({
   selector: 'app-poll-card',
