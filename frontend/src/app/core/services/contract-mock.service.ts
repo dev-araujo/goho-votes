@@ -24,7 +24,7 @@ export class ContractMockService {
       ],
       deadline: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000), 
       active: true,
-      totalVotePowerCast: '5000',
+      totalVotePowerCast: '5',
       totalOptions: 3,
     },
     {

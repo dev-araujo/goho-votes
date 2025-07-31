@@ -22,13 +22,9 @@ import {
   LoadingComponent,
   ErrorComponent,
   EmptyStateComponent,
- 
 } from '../../../shared/components';
 
-
-import { CreatePollFormComponent,
-  PollsGridComponent } from '../shared';
-
+import { CreatePollFormComponent, PollsAccordionComponent } from '../shared';
 
 @Component({
   selector: 'app-open-voting',
@@ -39,7 +35,7 @@ import { CreatePollFormComponent,
     ErrorComponent,
     EmptyStateComponent,
     CreatePollFormComponent,
-    PollsGridComponent,
+    PollsAccordionComponent,
   ],
   template: `
     <section class="open-voting">
@@ -80,13 +76,13 @@ import { CreatePollFormComponent,
       ></app-empty-state>
       } } @if (!isLoading() && !error() && openedPolls().length > 0) {
       @if(!showCreateForm()){
-      <app-polls-grid
+      <app-polls-accordion
         [polls]="openedPolls()"
         [canVote]="isConnected()"
         [isVoting]="isVoting()"
         [userVotedPolls]="userVotedPolls()"
         (vote)="onVote($event)"
-      ></app-polls-grid>
+      ></app-polls-accordion>
       } }
     </section>
   `,

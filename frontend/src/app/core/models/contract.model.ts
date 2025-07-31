@@ -1,6 +1,6 @@
 export interface PollOption {
   description: string;
-  voteCount: string; 
+  voteCount: string
 }
 
 

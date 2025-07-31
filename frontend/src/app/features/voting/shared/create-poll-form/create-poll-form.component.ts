@@ -63,13 +63,19 @@ import { CreatePollData } from '../../../../core/models/contract.model';
               size="small"
               type="button"
               (clicked)="removeOption($index)"
+              [disabled]="isCreating"
             >
               Remover
             </app-button>
             }
           </div>
           } @if (formData.options.length < 10) {
-          <app-button variant="secondary" type="button" (clicked)="addOption()">
+          <app-button
+            variant="secondary"
+            type="button"
+            (clicked)="addOption()"
+            [disabled]="isCreating"
+          >
             Adicionar Opção
           </app-button>
           }
@@ -93,12 +99,16 @@ import { CreatePollData } from '../../../../core/models/contract.model';
           <app-button
             type="submit"
             variant="primary"
-            [disabled]="!createForm.valid"
-          
+            [disabled]="!createForm.valid || isCreating"
           >
-            Criar Enquete
+            {{ isCreating ? 'Criando...' : 'Criar Enquete' }}
           </app-button>
-          <app-button type="button" variant="secondary" (clicked)="onCancel()">
+          <app-button
+            type="button"
+            variant="secondary"
+            (clicked)="onCancel()"
+            [disabled]="isCreating"
+          >
             Cancelar
           </app-button>
         </div>

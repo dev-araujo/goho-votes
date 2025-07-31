@@ -14,60 +14,69 @@ import { ButtonComponent } from '../../../../shared/components';
   standalone: true,
   imports: [CommonModule, ButtonComponent, DecimalPipe],
   template: `
-    <div class="poll-card">
-      <div class="poll-card__header">
-        <div class="poll-card__meta">
-            <span class="poll-id">ID: {{ poll.id }}</span>
-            <span class="poll-deadline">
-              Termina em: {{ formatDeadline(poll.deadline) }}
-            </span>
-          </div>
-        <h3>{{ poll.title }}</h3>
-        <details>
-          
-          <summary>Detalhes</summary>
-          <p>{{ poll.description }}</p>
-        </details>
-      </div>
+    <div class="poll-card-content">
+      <div class="poll-details-grid">
+        <div class="poll-details-grid__left">
+          <h4>Descrição</h4>
+          <p class="poll-description">{{ poll.description }}</p>
 
-      <div class="poll-card__options">
-        @for (option of poll.options; track $index) {
-        <div class="poll-option">
-          <div class="poll-option__info">
-            <span class="poll-option__description">{{
-              option.description
-            }}</span>
-            <span class="poll-option__votes">{{ option.voteCount | number:'1.0-0' }} votos</span>
+          <div class="poll-meta">
+            <div class="poll-meta__item">
+              <span class="poll-meta__label">Criador</span>
+              <span
+                class="poll-meta__value creator-address"
+                [title]="poll.creator"
+                >{{ poll.creator }}</span
+              >
+            </div>
+            <div class="poll-meta__item">
+              <span class="poll-meta__label">Total de Votos</span>
+              <span class="poll-meta__value">{{ poll.totalVotePowerCast | number: '1.0-0' }}</span>
+            </div>
+            <div class="poll-meta__item">
+              <span class="poll-meta__label">Opções</span>
+              <span class="poll-meta__value">{{ poll.totalOptions | number: '1.0-0' }}</span>
+            </div>
           </div>
-          <div class="poll-option__bar">
-            <div
-              class="poll-option__progress"
-              [style.width.%]="
-                getVotePercentage(option.voteCount, poll.totalVotePowerCast)
-              "
-            ></div>
-          </div>
-          @if (canVote && !hasUserVoted) {
-          <app-button
-            variant="vote"
-            size="small"
-            (clicked)="onVote($index)"
-          >
-            Votar
-          </app-button>
-          }
         </div>
-        }
+
+        <div class="poll-details-grid__right">
+          <h4>Opções de Voto</h4>
+          <div class="poll-card__options">
+            @for (option of poll.options; track $index) {
+            <div class="poll-option" [class.has-voted]="hasUserVoted">
+              <div class="poll-option__details">
+                <span class="poll-option__description">{{ option.description }}</span>
+                <div class="poll-option__vote-info">
+                  <span class="poll-option__percentage">{{ getVotePercentage(option.voteCount, poll.totalVotePowerCast) | number: '1.0-0' }}%</span>
+                  <span class="poll-option__votes">{{ option.voteCount | number: '1.0-0' }} {{option.voteCount > '1.0' ? 'votos' : 'voto'}}</span>
+                </div>
+              </div>
+              <div class="poll-option__bar">
+                <div class="poll-option__progress" [style.width.%]="getVotePercentage(option.voteCount, poll.totalVotePowerCast)"></div>
+              </div>
+              @if (canVote && !hasUserVoted) {
+              <div class="poll-option__action">
+                <app-button
+                  variant="vote"
+                  size="small"
+                  (clicked)="onVote($index)"
+                  [disabled]="isVoting"
+                >
+                  Votar
+                </app-button>
+              </div>
+              }
+            </div>
+            }
+          </div>
+        </div>
       </div>
 
       <div class="poll-card__footer">
-        <div class="poll-stats">
-          <span>Total de votos: {{ poll.totalVotePowerCast | number:'1.0-0' }}</span>
-          <span>Opções: {{ poll.totalOptions | number:'1.0-0' }}</span>
-        </div>
         @if (hasUserVoted) {
         <span class="voted-badge">✓ Você já votou</span>
-        } @if (!canVote && !hasUserVoted) {
+        } @else if (!canVote) {
         <span class="wallet-required">Conecte sua carteira para votar</span>
         }
       </div>
@@ -84,6 +93,8 @@ export class PollCardComponent {
 
   @Output() vote = new EventEmitter<number>();
 
+
+
   onVote(optionIndex: number): void {
     this.vote.emit(optionIndex);
   }
@@ -92,16 +103,5 @@ export class PollCardComponent {
     const votes = parseFloat(voteCount);
     const total = parseFloat(totalVotes);
     return total > 0 ? (votes / total) * 100 : 0;
-  }
-
-  formatDeadline(deadline: Date): string {
-    const now = new Date();
-    const diff = deadline.getTime() - now.getTime();
-    const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
-
-    if (days < 0) return 'Expirada';
-    if (days === 0) return 'Hoje';
-    if (days === 1) return '1 dia';
-    return `${days} dias`;
   }
 }

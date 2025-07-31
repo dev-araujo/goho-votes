@@ -1,0 +1,114 @@
+@use '../../../../../styles/variables' as var;
+@use '../../../../../styles/colors' as color;
+
+.polls-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: var.$spacing-md;
+}
+
+.accordion-item {
+  border: 1px solid color.$border-color;
+  border-radius: var.$border-radius-base * 2;
+  background-color: var.$white;
+  transition: box-shadow 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(color.$primary-text, 0.08);
+  }
+
+  &[open] {
+    .accordion-header {
+      border-bottom: 1px solid color.$border-color;
+    }
+  }
+}
+
+.accordion-header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var.$spacing-lg;
+  cursor: pointer;
+  list-style: none;
+  flex-wrap: wrap;
+  gap: var.$spacing-md;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  &::after {
+    content: '+';
+    font-size: 1.5rem;
+    font-weight: var.$font-weight-bold;
+    color: color.$accent-color;
+    transition: transform 0.2s ease;
+    margin-left: auto;
+    padding-left: var.$spacing-md;
+  }
+}
+
+.accordion-item[open] > .accordion-header::after {
+   content: '-';
+}
+
+.accordion-title {
+  color: color.$primary-text;
+  font-size: 1.25rem;
+  font-weight: 500;
+  flex-grow: 1;
+  flex-basis: 60%;
+  padding-right: 2rem;
+}
+
+.accordion-meta {
+  font-size: var.$font-size-sm;
+  color: color.$secondary-text;
+  display: flex;
+  gap: var.$spacing-lg;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  flex-grow: 1;
+  text-align: right;
+
+  .poll-deadline {
+    color: color.$accent-color;
+    font-weight: 500;
+  }
+}
+
+.accordion-content {
+  padding: var.$spacing-xl;
+}
+
+@media (max-width: var.$breakpoint-md) {
+  .accordion-header {
+    padding: var.$spacing-md;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .accordion-title {
+    font-size: 1.1rem;
+    margin-bottom: var.$spacing-sm;
+  }
+  .accordion-meta {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .accordion-header::after {
+    position: absolute;
+    top: var.$spacing-md;
+    right: var.$spacing-md;
+  }
+  .accordion-content {
+    padding: var.$spacing-lg;
+  }
+}
+
+@media (max-width: var.$breakpoint-sm) {
+  .accordion-content {
+    padding: var.$spacing-md;
+  }
+}

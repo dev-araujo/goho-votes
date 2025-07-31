@@ -4,7 +4,8 @@ import { ContractService } from '../../../core/services/contract.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PollDetails } from '../../../core/models/contract.model';
 import { LoadingComponent, ErrorComponent, EmptyStateComponent } from '../../../shared/components';
-import { PollsGridComponent } from '../shared';
+import { PollsAccordionComponent } from '../shared';
+import { ContractMockService } from '../../../core/services/contract-mock.service';
 
 @Component({
   selector: 'app-closed-voting',
@@ -14,7 +15,7 @@ import { PollsGridComponent } from '../shared';
     LoadingComponent,
     ErrorComponent,
     EmptyStateComponent,
-    PollsGridComponent,
+    PollsAccordionComponent,
   ],
   template: `
     <section class="closed-voting">
@@ -33,7 +34,7 @@ import { PollsGridComponent } from '../shared';
           icon="🗳️"
         ></app-empty-state>
       } @if (!isLoading() && !error() && closedPolls().length > 0) {
-        <app-polls-grid [polls]="closedPolls()"></app-polls-grid>
+        <app-polls-accordion [canVote]="false" [polls]="closedPolls()"></app-polls-accordion>
       }
     </section>
   `,
