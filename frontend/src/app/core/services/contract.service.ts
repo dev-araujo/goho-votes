@@ -10,6 +10,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { NetworkService } from './network.service';
 import { WalletService } from './wallet.service';
 import { ContractConstants, PollDetails, PollOption,CreatePollData } from '../models/contract.model';
+import { ContractMockService } from './contract-mock.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,20 +18,18 @@ import { ContractConstants, PollDetails, PollOption,CreatePollData } from '../mo
 export class ContractService {
   private networkService = inject(NetworkService);
   private walletService = inject(WalletService);
+  private mockService = inject(ContractMockService);
 
-  private readProvider: JsonRpcProvider;
-
-  constructor() {
-    this.readProvider = new JsonRpcProvider(
-      'https://rpc-amoy.polygon.technology/'
-    );
+  private getReadProvider(): JsonRpcProvider {
+    const rpcUrl = this.networkService.getRpcUrl();
+    return new JsonRpcProvider(rpcUrl);
   }
 
   private getReadContract(): Contract {
     const config = this.networkService.getContractConfig();
-    const contractAddress = config.explorerUrl.split('/').pop() as string;
+    const contractAddress = config.address;
     const contractAbi = config.abi;
-    return new Contract(contractAddress, contractAbi, this.readProvider);
+    return new Contract(contractAddress, contractAbi, this.getReadProvider());
   }
 
   private getWriteContract(): Contract | null {
@@ -40,13 +39,17 @@ export class ContractService {
       return null;
     }
     const config = this.networkService.getContractConfig();
-    const contractAddress = config.explorerUrl.split('/').pop() as string;
+    const contractAddress = config.address;
     const contractAbi = config.abi;
     return new Contract(contractAddress, contractAbi, signer);
   }
 
   //MÉTODOS DE LEITURA (VIEW)
   getRulesPolls(): Observable<ContractConstants> {
+    if (this.networkService.activeNetwork() === 'mock') {
+      return this.mockService.getRulesPolls();
+    }
+
     const contract = this.getReadContract();
     const constants$ = {
       minCreate: from(
@@ -71,6 +74,10 @@ export class ContractService {
  
 
   getPollCount(): Observable<number> {
+    if (this.networkService.activeNetwork() === 'mock') {
+      return this.mockService.getPollCount();
+    }
+
     const contract = this.getReadContract();
     const promise = contract['getPollCount']() as Promise<bigint>;
     return from(promise).pipe(
@@ -84,6 +91,10 @@ export class ContractService {
     offset: number,
     limit: number
   ): Observable<PollDetails> {
+    if (this.networkService.activeNetwork() === 'mock') {
+      return this.mockService.getPollDetails(pollId, offset, limit);
+    }
+
     const contract = this.getReadContract();
     const promise = contract['getPollDetails'](
       pollId,
@@ -130,6 +141,10 @@ export class ContractService {
   }
 
   hasVoted(pollId: number, address: string): Observable<boolean> {
+    if (this.networkService.activeNetwork() === 'mock') {
+      return this.mockService.hasVoted(pollId, address);
+    }
+
     const contract = this.getReadContract();
     const promise = contract['hasVoted'](pollId, address) as Promise<boolean>;
     return from(promise).pipe(catchError(this.handleError));
@@ -156,21 +171,40 @@ export class ContractService {
 
   
   getOpenPolls(): Observable<PollDetails[]> {
+    if (this.networkService.activeNetwork() === 'mock') {
+      return this.mockService.getOpenPolls();
+    }
+
     return this.getAllPolls().pipe(
-      map((polls) => polls.filter((p) => p.active && p.id !== 1).sort((a, b) => b.id - a.id)) 
+      map((polls) => polls.filter((p) => p.active && this.handleWrongPoll(p.id,1)).sort((a, b) => b.id - a.id))
     );
   }
 
   getClosedPolls(): Observable<PollDetails[]> {
+    if (this.networkService.activeNetwork() === 'mock') {
+      return this.mockService.getClosedPolls();
+    }
+
     return this.getAllPolls().pipe(
-      map((polls) => polls.filter((p) => !p.active).sort((a, b) => b.id - a.id)) 
+      map((polls) => polls.filter((p) => !p.active ).sort((a, b) => b.id - a.id))
     );
+  }
+
+  private handleWrongPoll(id:number, deleteThisId:number):boolean{
+     if (this.networkService.activeNetwork() === 'amoy' && id === deleteThisId) {
+        return false
+    }
+    return true
   }
 
   // MÉTODOS DE ESCRITA
   createPoll(
     pollData: CreatePollData
   ): Observable<TransactionReceipt> {
+    if (this.networkService.activeNetwork() === 'mock') {
+      return this.mockService.createPoll(pollData);
+    }
+
     const contract = this.getWriteContract();
     if (!contract) {
       return throwError(
@@ -191,6 +225,10 @@ export class ContractService {
   }
 
   vote(pollId: number, optionId: number): Observable<TransactionReceipt> {
+    if (this.networkService.activeNetwork() === 'mock') {
+      return this.mockService.vote(pollId, optionId);
+    }
+
     const contract = this.getWriteContract();
     if (!contract) {
       return throwError(() => new Error('Voto requer uma carteira conectada.'));

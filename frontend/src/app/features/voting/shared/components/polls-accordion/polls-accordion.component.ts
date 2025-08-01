@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PollDetails } from '../../../../core/models/contract.model';
+import { PollDetails } from '../../../../../core/models/contract.model';
 import { PollCardComponent } from '../poll-card/poll-card.component';
 
 @Component({

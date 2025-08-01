@@ -1,48 +1,71 @@
-import { Injectable, signal, inject } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 
 import amoyGoHorse from '../../../../contracts/amoy/GohoVoting.json';
-import mainnetGoHorse from '../../../../contracts/mainnet/GoHorse.json'; // TODO: trocar
+import mainnetGoHorse from '../../../../contracts/mainnet/GoHorse.json';
 
-export type Network = 'amoy' | 'mainnet';
+export type Network = 'amoy' | 'mainnet' | 'mock';
 
-interface ContractConfig {
+export interface ContractConfig {
+  address: string;
   abi: any;
   explorerUrl: string;
+  rpcUrl: string;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class NetworkService {
-  private readonly CONTRACT_CONFIGS: Record<Network, ContractConfig> = {
+  private readonly CONTRACT_CONFIGS: Record<Network, ContractConfig | null> = {
     amoy: {
+      address: '0x5cF749F8061Ec686aa5bdDcD6724aaEc4DB42D46',
       abi: amoyGoHorse.abi,
-      explorerUrl: 'https://amoy.polygonscan.com/address/0x5cF749F8061Ec686aa5bdDcD6724aaEc4DB42D46',
+      explorerUrl: 'https://amoy.polygonscan.com/address/',
+      rpcUrl: 'https://rpc-amoy.polygon.technology/',
     },
     mainnet: {
+      address: '0xMAINNET_CONTRACT_ADDRESS', // TODO: Adicionar endereço do contrato mainnet
       abi: mainnetGoHorse.abi,
-      explorerUrl: 'https://polygonscan.com', // TODO: trocar
+      explorerUrl: 'https://polygonscan.com/address/',
+      rpcUrl: 'https://polygon-rpc.com/',
     },
+    mock: null, 
   };
 
-  activeNetwork = signal<Network>('amoy');
+  activeNetwork = signal<Network>(this.getInitialNetwork());
 
   constructor() {}
 
+  private getInitialNetwork(): Network {
+    if (typeof window !== 'undefined') {
+      const savedNetwork = localStorage.getItem('activeNetwork') as Network;
+      return savedNetwork && savedNetwork in this.CONTRACT_CONFIGS ? savedNetwork : 'amoy';
+    }
+    return 'amoy';
+  }
+
   setNetwork(network: Network): void {
     this.activeNetwork.set(network);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('activeNetwork', network);
+    }
   }
 
   getContractConfig(): ContractConfig {
-    return this.CONTRACT_CONFIGS[this.activeNetwork()];
+    const config = this.CONTRACT_CONFIGS[this.activeNetwork()];
+    if (!config) {
+      throw new Error(`Configuração de contrato não encontrada para a rede: ${this.activeNetwork()}`);
+    }
+    return config;
   }
 
-  getContractAbi(): any {
-    return this.getContractConfig().abi;
+  getRpcUrl(): string {
+    const config = this.CONTRACT_CONFIGS[this.activeNetwork()];
+    return config ? config.rpcUrl : '';
   }
 
   getExplorerUrl(): string {
-    return this.CONTRACT_CONFIGS[this.activeNetwork()].explorerUrl;
+    const config = this.CONTRACT_CONFIGS[this.activeNetwork()];
+    return config ? `${config.explorerUrl}${config.address}` : '';
   }
-
 }

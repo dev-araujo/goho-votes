@@ -12,6 +12,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { WalletService } from '../../core/services/wallet.service';
 import { Network, NetworkService } from '../../core/services/network.service';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -25,6 +26,8 @@ export class SidebarComponent {
   private walletService = inject(WalletService);
   private networkService = inject(NetworkService);
   private cdr = inject(ChangeDetectorRef);
+
+  private router = inject(Router);
 
   @Input() isMenuOpen: boolean = false;
   @Output() menuClosed = new EventEmitter<void>();
@@ -74,6 +77,8 @@ export class SidebarComponent {
 
   onNetworkChange(event: Event): void {
     const selectElement = event?.target as HTMLSelectElement;
-    this.networkService.setNetwork(selectElement?.value as Network);
+    const network = selectElement?.value as Network;
+    this.networkService.setNetwork(network);
+    window.location.reload();
   }
 }

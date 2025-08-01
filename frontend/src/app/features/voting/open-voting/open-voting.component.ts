@@ -125,7 +125,8 @@ export class OpenVotingComponent implements OnInit {
         },
         error: (err) => {
           console.error('Erro ao carregar enquetes:', err);
-          this.error.set('Erro ao carregar enquetes. Tente novamente.');
+          this.error.set('Erro ao carregar enquetes. Verifique a rede e tente novamente.');
+          this.isLoading.set(false);
         },
         complete: () => {
           this.isLoading.set(false);
@@ -217,7 +218,7 @@ export class OpenVotingComponent implements OnInit {
         },
         error: (err) => {
           console.error('Erro ao votar:', err);
-          alert('Erro ao registrar voto. Tente novamente.');
+          alert('Erro ao registrar voto. Verifique se você tem saldo GOHO suficiente e tente novamente.');
         },
         complete: () => {
           this.isVoting.set(false);

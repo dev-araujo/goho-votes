@@ -6,8 +6,8 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
-import { PollDetails } from '../../../../core/models/contract.model';
-import { ButtonComponent } from '../../../../shared/components';
+import { PollDetails } from '../../../../../core/models/contract.model';
+import { ButtonComponent } from '../../../../../shared/components';
 
 @Component({
   selector: 'app-poll-card',
@@ -30,8 +30,8 @@ import { ButtonComponent } from '../../../../shared/components';
               >
             </div>
             <div class="poll-meta__item">
-              <span class="poll-meta__label">Total de Votos</span>
-              <span class="poll-meta__value">{{ poll.totalVotePowerCast | number: '1.0-0' }}</span>
+              <span class="poll-meta__label">Poder de Voto Total</span>
+              <span class="poll-meta__value">{{ poll.totalVotePowerCast | number: '1.0-0' }} GOHO</span>
             </div>
             <div class="poll-meta__item">
               <span class="poll-meta__label">Opções</span>
@@ -49,7 +49,7 @@ import { ButtonComponent } from '../../../../shared/components';
                 <span class="poll-option__description">{{ option.description }}</span>
                 <div class="poll-option__vote-info">
                   <span class="poll-option__percentage">{{ getVotePercentage(option.voteCount, poll.totalVotePowerCast) | number: '1.0-0' }}%</span>
-                  <span class="poll-option__votes">{{ option.voteCount | number: '1.0-0' }} {{option.voteCount > '1.0' ? 'votos' : 'voto'}}</span>
+                  <span class="poll-option__votes">{{ option.voteCount | number: '1.0-0' }} GOHO</span>
                 </div>
               </div>
               <div class="poll-option__bar">
@@ -76,8 +76,10 @@ import { ButtonComponent } from '../../../../shared/components';
       <div class="poll-card__footer">
         @if (hasUserVoted) {
         <span class="voted-badge">✓ Você já votou</span>
-        } @else if (!canVote) {
+        } @else if (canVote) {
         <span class="wallet-required">Conecte sua carteira para votar</span>
+        } @else if (canVote && !hasUserVoted) {
+          <span class="wallet-required">Seu poder de voto é igual ao seu saldo de GOHO. Mínimo de 1 GOHO para votar.</span>
         }
       </div>
     </div>

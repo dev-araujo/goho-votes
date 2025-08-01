@@ -66,7 +66,8 @@ export class ClosedVotingComponent implements OnInit {
         },
         error: (err) => {
           console.error('Erro ao carregar enquetes encerradas:', err);
-          this.error.set('Erro ao carregar enquetes encerradas. Tente novamente.');
+          this.error.set('Erro ao carregar enquetes encerradas. Verifique a rede e tente novamente.');
+          this.isLoading.set(false);
         },
         complete: () => {
           this.isLoading.set(false);

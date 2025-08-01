@@ -7,8 +7,8 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ButtonComponent } from '../../../../shared/components';
-import { CreatePollData } from '../../../../core/models/contract.model';
+import { ButtonComponent } from '../../../../../shared/components';
+import { CreatePollData } from '../../../../../core/models/contract.model';
 
 @Component({
   selector: 'app-create-poll-form',
@@ -17,6 +17,15 @@ import { CreatePollData } from '../../../../core/models/contract.model';
   template: `
     <div class="create-form">
       <h2>Criar Nova Enquete</h2>
+
+      <div class="create-form__info">
+        <p><strong>Regras para criar uma enquete:</strong></p>
+        <ul>
+          <li>É necessário um saldo mínimo de <strong>1 GOHO</strong>.</li>
+          <li>A duração deve ser entre 1 e 30 dias.</li>
+          <li>A enquete deve ter de 2 a 10 opções.</li>
+        </ul>
+      </div>
 
       <form (ngSubmit)="onSubmit()" #createForm="ngForm">
         <label for="title">Título:</label>

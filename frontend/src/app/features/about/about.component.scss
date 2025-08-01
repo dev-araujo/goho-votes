@@ -1,3 +1,123 @@
+@use '../../../styles/variables' as var;
+
 :host {
   display: block;
+  padding: var.$spacing-lg;
+  background-color: var.$primary-bg;
+  color: var.$primary-text;
+  font-family: var.$font-family-base;
+}
+
+.about-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.about-header {
+  text-align: center;
+  margin-bottom: var.$spacing-xl;
+
+  .header-image {
+    max-width: 250px;
+    margin-bottom: var.$spacing-md;
+    border-radius: var.$border-radius-base;
+    box-shadow: var.$box-shadow-md;
+  }
+
+  h1 {
+    font-size: var.$font-size-lg * 1.5; 
+    font-weight: var.$font-weight-bold;
+    color: var.$primary-text;
+    margin-bottom: var.$spacing-xs;
+  }
+
+  .subtitle {
+    font-size: var.$font-size-lg;
+    color: var.$secondary-text;
+    font-style: italic;
+  }
+}
+
+.about-content {
+  display: grid;
+  gap: var.$spacing-lg;
+}
+
+.content-card {
+  background-color: var.$white;
+  padding: var.$spacing-lg;
+  border-radius: var.$border-radius-base;
+  border: 1px solid var.$border-color;
+  box-shadow: var.$box-shadow-sm;
+  transition: transform 0.3s, box-shadow 0.3s;
+
+ 
+  h2 {
+    font-size: var.$font-size-lg * 1.2;
+    font-weight: var.$font-weight-bold;
+    color: var.$primary-text;
+    margin-bottom: var.$spacing-md;
+    border-bottom: 2px solid var.$accent-color;
+    padding-bottom: var.$spacing-sm;
+  }
+
+  p, ul li {
+    font-size: var.$font-size-md;
+    line-height: var.$line-height-base;
+    color: var.$secondary-text;
+
+    strong {
+      color: var.$accent-color;
+      font-weight: var.$font-weight-bold;
+    }
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin-top: var.$spacing-md;
+
+    li {
+     
+      margin-bottom: var.$spacing-sm;
+
+      .emoji {
+        font-size: 1.5rem; 
+        margin-right: var.$spacing-sm;
+        color: var.$accent-color;
+      }
+    }
+  }
+}
+
+.cta-card {
+  text-align: center;
+  background-color: var.$accent-color;
+  color: var.$white;
+
+  h2, p, strong {
+    color: var.$white;
+  }
+
+  h2 {
+    border-bottom-color: var.$white;
+  }
+}
+
+.cta-button {
+  display: inline-block;
+  margin-top: var.$spacing-md;
+  padding: var.$spacing-sm var.$spacing-lg;
+  background-color: var.$primary-text;
+  color: var.$white;
+  text-decoration: none;
+  font-size: var.$font-size-md;
+  font-weight: var.$font-weight-bold;
+  border-radius: var.$border-radius-base;
+  transition: background-color 0.3s, transform 0.3s;
+
+  &:hover {
+    background-color: darken(var.$primary-text, 10%);
+    transform: scale(1.05);
+  }
 }
