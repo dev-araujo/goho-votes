@@ -5,7 +5,12 @@
 
 Projeto que visa estender o [ecossistema do token GOHO](https://goho-view.vercel.app/docs) por meio da criação de um sistema de votos que simulam a participação em uma organização autônoma descentralizada (DAO). Este repositório contém os smart contracts do sistema de votação e uma interface de usuário para interagir com eles.
 
-![](./assets/HorsesVotingRights.png)
+## Resultado (interface) ✨
+Você pode conferir a aplicação facilmente no seguinte link:
+[VERCEL](https://goho-vote.vercel.app/sobre)
+
+<img width="1847" height="932" alt="image" src="https://github.com/user-attachments/assets/f4b62604-f29d-4075-8feb-6ee3267748a0" />
+
 
 ## 🌟 Features Principais
 
