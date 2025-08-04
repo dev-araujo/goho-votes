@@ -38,6 +38,7 @@
   background-color: lighten(color.$primary-background, 2%);
   padding: var.$spacing-md;
   border-radius: var.$border-radius-base;
+  border: 1px solid color.$border-color;
 
   &__item {
     display: flex;
