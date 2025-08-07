@@ -9,7 +9,12 @@ import { Observable, forkJoin, from, of, throwError } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { NetworkService } from './network.service';
 import { WalletService } from './wallet.service';
-import { ContractConstants, PollDetails, PollOption,CreatePollData } from '../models/contract.model';
+import {
+  ContractConstants,
+  PollDetails,
+  PollOption,
+  CreatePollData,
+} from '../models/contract.model';
 import { ContractMockService } from './contract-mock.service';
 
 @Injectable({
@@ -60,7 +65,7 @@ export class ContractService {
     };
     return forkJoin(constants$).pipe(
       map(({ minCreate, minVote, maxDuration }) => {
-        const secondsInADay = 86400; 
+        const secondsInADay = 86400;
 
         return {
           minimumGohoToCreatePoll: formatUnits(minCreate, 18),
@@ -71,7 +76,6 @@ export class ContractService {
       catchError(this.handleError)
     );
   }
- 
 
   getPollCount(): Observable<number> {
     if (this.networkService.activeNetwork() === 'mock') {
@@ -150,7 +154,6 @@ export class ContractService {
     return from(promise).pipe(catchError(this.handleError));
   }
 
-
   private getAllPolls(): Observable<PollDetails[]> {
     return this.getPollCount().pipe(
       switchMap((pollCount) => {
@@ -160,7 +163,7 @@ export class ContractService {
         const pollIds = Array.from({ length: pollCount }, (_, i) => i);
 
         const pollObservables = pollIds.map((id) =>
-          this.getPollDetails(id, 0, 100) 
+          this.getPollDetails(id, 0, 100)
         );
 
         return forkJoin(pollObservables);
@@ -169,14 +172,20 @@ export class ContractService {
     );
   }
 
-  
   getOpenPolls(): Observable<PollDetails[]> {
     if (this.networkService.activeNetwork() === 'mock') {
       return this.mockService.getOpenPolls();
     }
 
+    const currentDate = new Date();
     return this.getAllPolls().pipe(
-      map((polls) => polls.filter((p) => p.active && this.handleWrongPoll(p.id,1)).sort((a, b) => b.id - a.id))
+      map((polls) =>
+        polls
+          .filter(
+            (p) => p.deadline > currentDate && this.handleWrongPoll(p.id, 1)
+          )
+          .sort((a, b) => b.id - a.id)
+      )
     );
   }
 
@@ -184,23 +193,28 @@ export class ContractService {
     if (this.networkService.activeNetwork() === 'mock') {
       return this.mockService.getClosedPolls();
     }
+    const currentDate = new Date();
 
     return this.getAllPolls().pipe(
-      map((polls) => polls.filter((p) => !p.active ).sort((a, b) => b.id - a.id))
+      map((polls) =>
+        polls
+          .filter(
+            (p) => p.deadline <= currentDate && this.handleWrongPoll(p.id, 1)
+          )
+          .sort((a, b) => b.id - a.id)
+      )
     );
   }
 
-  private handleWrongPoll(id:number, deleteThisId:number):boolean{
-     if (this.networkService.activeNetwork() === 'amoy' && id === deleteThisId) {
-        return false
+  private handleWrongPoll(id: number, deleteThisId: number): boolean {
+    if (this.networkService.activeNetwork() === 'amoy' && id === deleteThisId) {
+      return false;
     }
-    return true
+    return true;
   }
 
   // MÉTODOS DE ESCRITA
-  createPoll(
-    pollData: CreatePollData
-  ): Observable<TransactionReceipt> {
+  createPoll(pollData: CreatePollData): Observable<TransactionReceipt> {
     if (this.networkService.activeNetwork() === 'mock') {
       return this.mockService.createPoll(pollData);
     }
