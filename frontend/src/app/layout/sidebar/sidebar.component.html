@@ -1,6 +1,6 @@
-<aside class="sidebar" [class.is-open]="isMenuOpen">
+<aside class="sidebar">
   <div class="sidebar__content">
-    <header class="logo" [routerLink]="['/token']">
+    <header class="logo" [routerLink]="['/sobre']" (click)="closeMenu()">
       <img
         src="gohorse-pe-de-pano.jpg"
         alt="GoHorse Logo Estilo Retro"
@@ -30,22 +30,24 @@
         >
       </nav>
 
-      <div class="network-select-container">
-        <select
-          [ngModel]="activeNetwork()"
-          (ngModelChange)="onNetworkChange($event)"
-          (change)="onNetworkChange($event)"
-        >
-          <option value="amoy">Amoy Testnet</option>
-          <option value="mainnet">Polygon Mainnet</option>
-          <option value="mock">Mock Data</option>
-        </select>
-      </div>
+      <div class="sidebar__footer">
+        <div class="network-select-container">
+          <select
+            [ngModel]="activeNetwork()"
+            (ngModelChange)="onNetworkChange($event)"
+            (change)="onNetworkChange($event)"
+          >
+            <option value="amoy">Amoy Testnet</option>
+            <option value="mainnet">Polygon Mainnet</option>
+            <option value="mock">Mock Data</option>
+          </select>
+        </div>
 
-      <button class="connect-btn" (click)="handleWalletAction()">
-        {{ displayAddress() }}
-      </button>
+        <button class="connect-btn" (click)="handleWalletAction()">
+          {{ displayAddress() }}
+        </button>
+      </div>
     </section>
   </div>
+  <div class="sidebar__overlay" (click)="closeMenu()"></div>
 </aside>
-

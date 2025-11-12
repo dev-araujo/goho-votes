@@ -11,18 +11,24 @@ const CORE = [RouterOutlet, CommonModule];
   imports: [...COMPONENTS, ...CORE],
   template: `
     <div class="layout">
-      <app-sidebar [isMenuOpen]="isMenuOpen()" (menuClosed)="closeMenu()" />
-      <button
-        class="menu-toggle"
-        (click)="toggleMenu()"
-        aria-label="Toggle menu"
-      >
-        <span class="material-icons">{{ isMenuOpen() ? "close" : "menu" }}</span>
-      </button>
-      <main class="layout__content">
-        <router-outlet />
-      </main>
-    </div>
+  <app-sidebar
+    [class.is-open]="isMenuOpen()"
+    [isMenuOpen]="isMenuOpen()"
+    (menuClosed)="closeMenu()"
+  />
+  <button
+    class="menu-toggle"
+    (click)="toggleMenu()"
+    aria-label="Toggle menu"
+  >
+    <span class="material-icons">{{
+      isMenuOpen() ? "close" : "menu"
+    }}</span>
+  </button>
+  <main class="layout__content">
+    <router-outlet />
+  </main>
+</div>
   `,
   styleUrl: './layout.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,11 +1,9 @@
 @use '../../../styles/variables' as var;
+@use "sass:color" as sasscolor;
 
 :host {
   display: block;
-  padding: var.$spacing-lg;
-  background-color: var.$primary-bg;
-  color: var.$primary-text;
-  font-family: var.$font-family-base;
+  width: 100%;
 }
 
 .about-container {
@@ -21,20 +19,19 @@
     max-width: 250px;
     margin-bottom: var.$spacing-md;
     border-radius: var.$border-radius-base;
-    box-shadow: var.$box-shadow-md;
   }
 
   h1 {
-    font-size: var.$font-size-lg * 1.5; 
-    font-weight: var.$font-weight-bold;
+    font-size: var.$font-size-lg * 1.5;
+    letter-spacing: 1px;
     color: var.$primary-text;
     margin-bottom: var.$spacing-xs;
+    font-family: var.$font-family-headings;
   }
 
   .subtitle {
     font-size: var.$font-size-lg;
     color: var.$secondary-text;
-    font-style: italic;
   }
 }
 
@@ -44,25 +41,24 @@
 }
 
 .content-card {
-  background-color: var.$white;
+  background-color: var.$secondary-background;
   padding: var.$spacing-lg;
   border-radius: var.$border-radius-base;
   border: 1px solid var.$border-color;
-  box-shadow: var.$box-shadow-sm;
-  transition: transform 0.3s, box-shadow 0.3s;
 
- 
   h2 {
     font-size: var.$font-size-lg * 1.2;
-    font-weight: var.$font-weight-bold;
+    
     color: var.$primary-text;
     margin-bottom: var.$spacing-md;
     border-bottom: 2px solid var.$accent-color;
     padding-bottom: var.$spacing-sm;
+    font-family: var.$font-family-headings;
   }
 
-  p, ul li {
-    font-size: var.$font-size-md;
+  p,
+  ul li {
+    font-size: var.$font-size-base;
     line-height: var.$line-height-base;
     color: var.$secondary-text;
 
@@ -78,11 +74,11 @@
     margin-top: var.$spacing-md;
 
     li {
-     
       margin-bottom: var.$spacing-sm;
+     
 
       .emoji {
-        font-size: 1.5rem; 
+        font-size: 1.5rem;
         margin-right: var.$spacing-sm;
         color: var.$accent-color;
       }
@@ -95,14 +91,16 @@
   flex-direction: column;
   align-items: center;
   background-color: var.$accent-color;
-  color: var.$white;
+  color: var.$primary-bg;
 
-  h2, p, strong {
-    color: var.$white;
+  h2,
+  p,
+  strong {
+    color: var.$primary-bg;
   }
 
   h2 {
-    border-bottom-color: var.$white;
+    border-bottom-color: var.$primary-bg;
   }
 }
 
@@ -110,16 +108,18 @@
   display: inline-block;
   margin-top: var.$spacing-md;
   padding: var.$spacing-sm var.$spacing-lg;
-  background-color: var.$primary-text;
-  color: var.$white;
+  background-color: var.$primary-bg;
+  color: var.$primary-text;
   text-decoration: none;
-  font-size: var.$font-size-md;
-  font-weight: var.$font-weight-bold;
-  border-radius: var.$border-radius-base;
-  transition: background-color 0.3s, transform 0.3s;
+  font-size: var.$font-size-base;
+  
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  font-family: var.$font-family-headings;
+  text-transform: uppercase;
 
   &:hover {
-    background-color: darken(var.$primary-text, 10%);
-    transform: scale(1.05);
+    background-color: sasscolor.adjust(var.$primary-bg, $lightness: 10%);
+    transform: translateY(-3px);
   }
 }

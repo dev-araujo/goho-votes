@@ -7,13 +7,12 @@ $breakpoint-xl: 1200px;
 
 $font-size-base: 1rem;
 $font-size-sm: $font-size-base * 0.875;
-$font-size-md: $font-size-base * 1;
 $font-size-lg: $font-size-base * 1.25;
 
 $line-height-base: 1.5;
 
-$font-family-base: "Open Sans", sans-serif;
-$font-family-mono: "Courier New", monospace;
+$font-family-base: "Nunito", sans-serif;
+$font-family-headings: "Lilita One", sans-serif;
 $font-weight-normal: 400;
 $font-weight-bold: 700;
 
@@ -25,12 +24,10 @@ $spacing-lg: $spacing-unit * 4;
 $spacing-xl: $spacing-unit * 6;
 
 $border-radius-base: 4px;
-$border-color: #e0d7c5;
 
-$box-shadow-sm: 0 1px 3px rgba(color.$black, 0.12), 0 1px 2px rgba(color.$black, 0.24);
-$box-shadow-md: 0 3px 6px rgba(color.$black, 0.16), 0 3px 6px rgba(color.$black, 0.23);
-
+$border-color: color.$border-color;
 $primary-bg: color.$primary-background;
+$secondary-background: color.$secondary-background;
 $primary-text: color.$primary-text;
 $secondary-text: color.$secondary-text;
 $accent-color: color.$accent-color;

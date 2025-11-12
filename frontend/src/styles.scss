@@ -2,21 +2,29 @@
 @use "./styles/fonts";
 @use "./styles/colors" as color;
 @use "./styles/variables" as _var;
+@use "sass:color" as sasscolor;
 
-html,
+html {
+  font-size: 18px;
+
+  @media (max-width: _var.$breakpoint-lg) {
+    font-size: 16px;
+  }
+}
+
 body {
   height: 100%;
   margin: 0;
   background-color: _var.$primary-bg;
   color: _var.$primary-text;
   font-family: _var.$font-family-base;
-  font-size: _var.$font-size-base;
+  font-size: 1rem;
   line-height: _var.$line-height-base;
 }
 
 *::selection {
-  background: color.$accent-color;
-  color: color.$white;
+  background: _var.$accent-color;
+  color: _var.$primary-bg;
 }
 
 * {
@@ -25,21 +33,36 @@ body {
 
 button {
   cursor: pointer;
-  padding: _var.$spacing-sm _var.$spacing-md;
-  border-radius: _var.$border-radius-base * 5;
-  border: 1px solid transparent;
-  font-weight: _var.$font-weight-bold;
-  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  padding: _var.$spacing-sm _var.$spacing-lg;
+  border-radius: 50px;
+  border: 2px solid transparent;
+  letter-spacing: 1px;;
+  font-family: _var.$font-family-headings;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
   background-color: _var.$accent-color;
-  color: _var.$white;
+  color: _var.$primary-bg;
 
   &:hover {
-    opacity: 0.9;
+    transform: translateY(-3px);
   }
 
   &:disabled {
-    opacity: 0.6;
+    opacity: 0.5;
     cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+a {
+  color: _var.$accent-color;
+  text-decoration: none;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: sasscolor.scale(_var.$accent-color, $lightness: 15%);
+    text-decoration: underline;
   }
 }
 
@@ -52,13 +75,15 @@ textarea {
   border-radius: _var.$border-radius-base;
   width: 100%;
   margin-bottom: _var.$spacing-sm;
-  font-size: _var.$font-size-base;
+  font-size: 1rem;
   color: _var.$primary-text;
+  background-color: sasscolor.scale(_var.$primary-bg, $lightness: 5%);
+  font-family: _var.$font-family-base;
 
   &:focus {
     outline: none;
     border-color: _var.$accent-color;
-    box-shadow: 0 0 0 2px rgba(_var.$accent-color, 0.2);
+    box-shadow: 0 0 0 3px rgba(_var.$accent-color, 0.25);
   }
 }
 
@@ -84,22 +109,3 @@ textarea {
 .text-center {
   text-align: center;
 }
-
-.mt-1 {
-  margin-top: _var.$spacing-xs;
-}
-.mt-2 {
-  margin-top: _var.$spacing-sm;
-}
-.mt-3 {
-  margin-top: _var.$spacing-md;
-}
-.mt-4 {
-  margin-top: _var.$spacing-lg;
-}
-.mt-5 {
-  margin-top: _var.$spacing-xl;
-}
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

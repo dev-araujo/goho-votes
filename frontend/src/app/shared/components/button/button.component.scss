@@ -3,76 +3,83 @@
 @use '../../../../styles/colors' as color;
 
 .btn {
-  padding: var.$spacing-sm var.$spacing-md;
-  border: none;
-  border-radius: var.$border-radius-base;
+  padding: var.$spacing-sm var.$spacing-lg;
+  border: 2px solid transparent;
+  border-radius: 50px;
   cursor: pointer;
   font-size: var.$font-size-base;
-  font-weight: 500;
-  transition: all 0.2s ease;
+  font-family: var.$font-family-headings;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var.$spacing-xs;
-  font-family: var.$font-family-base;
+  letter-spacing: 1px;
 
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+  &:hover:not(:disabled) {
+    transform: translateY(-3px);
   }
 
-  // Variants
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
   &--primary {
-    background-color: color.$accent-color;
-    color: var.$white;
+    background-color: var.$accent-color;
+    color: var.$primary-bg;
 
     &:hover:not(:disabled) {
-      background-color: sass-color.adjust(color.$accent-color, $lightness: -10%);
+      background-color: sass-color.adjust(var.$accent-color, $lightness: -5%);
     }
   }
 
   &--secondary {
     background-color: transparent;
-    color: color.$primary-text;
-    border: 1px solid color.$border-color;
+    color: var.$accent-color;
+    border-color: var.$accent-color;
 
     &:hover:not(:disabled) {
-      background-color: color.$gray-light;
+      background-color: sass-color.adjust(var.$accent-color, $alpha: -0.8);
+      color: sass-color.adjust(var.$accent-color, $lightness: 5%);
     }
   }
 
   &--danger {
     background-color: color.$error-color;
-    color: var.$white;
+    color: var.$primary-bg;
+    border-color: color.$error-color;
 
     &:hover:not(:disabled) {
-      background-color: sass-color.adjust(color.$error-color, $lightness: -10%);
+      background-color: sass-color.adjust(color.$error-color, $lightness: -5%);
     }
   }
 
   &--vote {
-    background-color: color.$accent-color;
-    color: var.$white;
-    border-radius: 20px;
+    background-color: var.$accent-color;
+    color: var.$primary-bg;
+    border-radius: 50px;
 
     &:hover:not(:disabled) {
-      background-color: sass-color.adjust(color.$accent-color, $lightness: -10%);
+      background-color: sass-color.adjust(var.$accent-color, $lightness: -5%);
     }
   }
 
   &--small {
-    padding: var.$spacing-xs var.$spacing-sm;
+    padding: var.$spacing-xs var.$spacing-md;
     font-size: var.$font-size-sm;
   }
 
   &--medium {
-    padding: var.$spacing-sm var.$spacing-md;
+    padding: var.$spacing-sm var.$spacing-lg;
     font-size: var.$font-size-base;
   }
 
   &--large {
-    padding: var.$spacing-md var.$spacing-lg;
+    padding: var.$spacing-md var.$spacing-xl;
     font-size: var.$font-size-lg;
   }
 
@@ -91,6 +98,10 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

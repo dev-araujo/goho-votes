@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   inject,
+  signal,
   ChangeDetectorRef,
   Input,
   Output,
@@ -12,25 +13,23 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { WalletService } from '../../core/services/wallet.service';
 import { Network, NetworkService } from '../../core/services/network.service';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-sidebar',
+  standalone: true,
   imports: [RouterLink, RouterLinkActive, CommonModule, FormsModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent {
+  @Input() isMenuOpen: boolean = false;
+  @Output() menuClosed = new EventEmitter<void>();
+
   private walletService = inject(WalletService);
   private networkService = inject(NetworkService);
   private cdr = inject(ChangeDetectorRef);
-
-  private router = inject(Router);
-
-  @Input() isMenuOpen: boolean = false;
-  @Output() menuClosed = new EventEmitter<void>();
 
   isConnected = this.walletService.isConnected;
   connectedAccount = this.walletService.connectedAccount;
@@ -62,7 +61,7 @@ export class SidebarComponent {
       await this.walletService.connectWallet();
       this.cdr.markForCheck();
     } catch (error) {
-      console.error('Falha ao conectar carteira a partir do navbar:', error);
+      console.error('Falha ao conectar carteira a partir da sidebar:', error);
     } finally {
       this.closeMenu();
     }
@@ -77,8 +76,6 @@ export class SidebarComponent {
 
   onNetworkChange(event: Event): void {
     const selectElement = event?.target as HTMLSelectElement;
-    const network = selectElement?.value as Network;
-    this.networkService.setNetwork(network);
-    window.location.reload();
+    this.networkService.setNetwork(selectElement?.value as Network);
   }
 }

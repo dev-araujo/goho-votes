@@ -21,7 +21,7 @@ import { CreatePollData } from '../../../../../core/models/contract.model';
       <div class="create-form__info">
         <p><strong>Regras para criar uma enquete:</strong></p>
         <ul>
-          <li>É necessário um saldo mínimo de <strong>1 GOHO</strong>.</li>
+          <li>É necessário um saldo mínimo de <a href='https://goho-view.vercel.app/token' rel="noreferrer noopener nofollow" target='_blank'> <strong>1 GOHO</strong></a>.</li>
           <li>A duração deve ser entre 1 e 30 dias.</li>
           <li>A enquete deve ter de 2 a 10 opções.</li>
         </ul>
