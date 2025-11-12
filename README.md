@@ -9,7 +9,7 @@ Projeto que visa estender o [ecossistema do token GOHO](https://goho-view.vercel
 - **Você pode conferir a aplicação facilmente no seguinte link:**
   - [**VERCEL**](https://goho-vote.vercel.app/sobre)
 
-<img width="1847" height="932" alt="image" src="./assets/HorsesVotingRights.png"/>
+<img width="1847" height="932" alt="image" src="./assets/image.png"/>
 
 
 ## 🌟 Features Principais
